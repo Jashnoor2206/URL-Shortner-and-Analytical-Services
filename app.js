@@ -1,5 +1,8 @@
+const urlRoute = require('./routes/url');
 const express = require('express');
-const mongoose = require('mongoose');
 const app = express();
+const connectToMongoDB = require('./connect');
+connectToMongoDB(app);
 
-const port = 3000;
+app.use(express.json());
+app.use('/url', urlRoute);
