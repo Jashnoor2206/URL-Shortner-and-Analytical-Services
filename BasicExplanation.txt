@@ -1,1 +1,1 @@
-Here we are going to design a URL Shortner which takes a valid URL and returns a shortened version . We are taking inspiration from a website called Bitly. 
+Here we are going to design a URL Shortner which takes a valid URL and returns a shortened version . We are taking inspiration from a website called Bitly. We will only see the backend of the project here . We will also track how many click occured on the URL
