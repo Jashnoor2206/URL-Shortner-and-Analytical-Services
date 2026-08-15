@@ -7,16 +7,3 @@ connectToMongoDB(app);
 
 app.use(express.json());
 app.use('/url', urlRoute);
-
-app.get('/:shortID', async (req, res)=>{
-    const shortID = req.params.shortID;
-    const entry = await URL.findOneAndUpdate({
-        shortID
-    }, {$push: {
-        visitHistory : {
-            timestamp : Date.now()
-        }
-    }});
-
-    res.redirect(entry.redirectURL);
-});

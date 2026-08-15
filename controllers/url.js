@@ -6,12 +6,17 @@ async function generateNewShortURL(req, res){
     if(!body.url) return res.status(400).json({error: 'url is required '});
 
     const shortID = nanoid(8);
-    await url.create({
-        shortID: shortID,
-        redirectURL: body.url,
-        visitHistory: []
-    })
-    return res.json({id: shortID});
+    try{
+        await url.create({
+            shortID: shortID,
+            redirectURL: body.url,
+            visitHistory: []
+        })
+        return res.json({id: shortID});
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({error : "failed to create short url"});
+    }
 };
 
 async function getAnalytics(req, res){
@@ -20,6 +25,22 @@ async function getAnalytics(req, res){
     return res.json({totalClicks: result.visitHistory.length});
 }
 
+async function redirectToOtherPage(req, res){
+    const shortID = req.params.shortID;
+    const element = await url.findOne(
+        {shortID},
+        {$push: {
+            visitHistory : {
+                timestamp : Date.now()
+            }
+        }}
+    );
+
+    res.redirect(element.redirectURL);
+}
+
 module.exports = {
-    generateNewShortURL, getAnalytics
+    generateNewShortURL,
+    getAnalytics,
+    redirectToOtherPage
 };
