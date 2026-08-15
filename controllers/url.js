@@ -27,7 +27,7 @@ async function getAnalytics(req, res){
 
 async function redirectToOtherPage(req, res){
     const shortID = req.params.shortID;
-    const element = await url.findOne(
+    const element = await url.findOneAndUpdate(
         {shortID},
         {$push: {
             visitHistory : {

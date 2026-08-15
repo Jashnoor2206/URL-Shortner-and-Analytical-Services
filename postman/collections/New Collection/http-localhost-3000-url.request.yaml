@@ -1,0 +1,12 @@
+$kind: http-request
+name: http://localhost:3000/url
+description: ""
+url: http://localhost:3000/url
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "url" : "https://google.com"
+    }
+order: 1786820831346
