@@ -5,6 +5,11 @@ async function generateNewShortURL(req, res){
     const body = req.body;
     if(!body.url) return res.status(400).json({error: 'url is required '});
 
+    const existing = await url.findOne({redirectURL: body.url});
+    if(existing){
+        return res.json({id: existing.shortID});
+    }
+
     const shortID = nanoid(8);
     try{
         await url.create({
@@ -39,8 +44,13 @@ async function redirectToOtherPage(req, res){
     res.redirect(element.redirectURL);
 }
 
+function homePage(req, res){
+    res.render('homepage');
+}
+
 module.exports = {
     generateNewShortURL,
     getAnalytics,
-    redirectToOtherPage
+    redirectToOtherPage,
+    homePage
 };

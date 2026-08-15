@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <p class="subtitle">Paste a long URL, get a short one back.</p>
+
+        <div class="input-row">
+            <input type="text" id="longUrl" placeholder="https://example.com/some/very/long/link" />
+            <button id="shortenBtn">Shorten</button>
+        </div>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const btn = document.getElementById('shortenBtn');
+        const input = document.getElementById('longUrl');
+        const result = document.getElementById('result');
+
+        btn.addEventListener('click', async () => {
+            const url = input.value.trim();
+
+            if (!url) {
+                result.innerHTML = '<p class="error">Please enter a URL first.</p>';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Shortening...';
+
+            try {
+                const response = await fetch('/url', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    result.innerHTML = `<p class="error">${data.error || 'Something went wrong.'}</p>`;
+                    return;
+                }
+
+                const shortUrl = `${window.location.origin}/url/${data.id}`;
+
+                result.innerHTML = `
+                    <p class="success">Here's your short link:</p>
+                    <div class="short-url-row">
+                        <a href="${shortUrl}" target="_blank">${shortUrl}</a>
+                        <button id="copyBtn">Copy</button>
+                    </div>
+                `;
+
+                document.getElementById('copyBtn').addEventListener('click', () => {
+                    navigator.clipboard.writeText(shortUrl);
+                    document.getElementById('copyBtn').textContent = 'Copied!';
+                });
+
+            } catch (err) {
+                result.innerHTML = '<p class="error">Could not reach the server.</p>';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Shorten';
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') btn.click();
+        });
+    </script>
+
+</body>
+</html>
