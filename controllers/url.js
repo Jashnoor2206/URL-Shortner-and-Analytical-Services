@@ -45,9 +45,9 @@ async function redirectToOtherPage(req, res){
     res.redirect(element.redirectURL);
 }
 
-function homePage(req, res){
+async function homePage(req, res){
     const allurl = await url.findOne({createdBy : req.user._id});
-    res.render('homepage');
+    res.render('homepage',{urls : allurl});
 }
 
 module.exports = {

@@ -15,13 +15,14 @@ async function createUser(req, res) {
 
 async function handleLogin(req, res){
     const {email, password} = req.body;
-    const User = await user.findOne({email, password});
-    if(!User){
+    const existingUser = await user.findOne({email, password});
+    if(!existingUser){
         return res.render('login', {
             error: "Invalid username or password"
         });
     }
     const sessionid = uuidv4(); // if everything is correct we make a session id 
+    setUser(sessionid, existingUser);
     res.cookie("uuid", sessionid);
     return res.redirect('/url'); // redirecting back to homepage
 }
