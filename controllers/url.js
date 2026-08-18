@@ -15,7 +15,8 @@ async function generateNewShortURL(req, res){
         await url.create({
             shortID: shortID,
             redirectURL: body.url,
-            visitHistory: []
+            visitHistory: [],
+            createdBy : req.user._id
         })
         return res.json({id: shortID});
     }catch(err){
@@ -45,6 +46,7 @@ async function redirectToOtherPage(req, res){
 }
 
 function homePage(req, res){
+    const allurl = await url.findOne({createdBy : req.user._id});
     res.render('homepage');
 }
 
