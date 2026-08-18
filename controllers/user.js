@@ -8,14 +8,31 @@ async function createUser(req, res) {
         password: password
     })
 
-    return res.render('homepage');
+    return res.redirect('/'); // redirecting back to homepage
+}
+
+async function handleLogin(req, res){
+    const {email, password} = req.body;
+    const User = user.findOne({email, password});
+    if(!User){
+        return res.render('login', {
+            error: "Invalid username or password"
+        });
+    }
+    return res.redirect('/'); // redirecting back to homepage
 }
 
 function signupPage(req, res){
     res.render('signup');
 }
 
+function loginPage(req, res){
+    res.render('login');
+}
+
 module.exports = {
     createUser,
-    signupPage
+    signupPage,
+    loginPage,
+    handleLogin
 }
