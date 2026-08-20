@@ -4,11 +4,18 @@ const {v4: uuidv4} = require('uuid');
 
 async function createUser(req, res) {
     const {name, email, password} = req.body;
-    await user.create({
-        name: name,
-        email: email,
-        password: password
-    })
+    try{
+        await user.create({
+            name: name,
+            email: email,
+            password: password
+        })
+    }catch(err){
+        console.log(err);
+        return res.render('signup', {
+            error : err.code === 11000 ? "Email already registered" : "Something else went wrong"
+        });
+    }
 
     return res.redirect('/url'); // redirecting back to homepage
 }

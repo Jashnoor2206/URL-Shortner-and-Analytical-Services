@@ -28,6 +28,9 @@ async function generateNewShortURL(req, res){
 async function getAnalytics(req, res){
     const shortID = req.params.shortID;
     const result = await url.findOne({shortID});
+    if(!result){
+        return res.status(404).json({error : "short url not found"});
+    }
     return res.json({totalClicks: result.visitHistory.length});
 }
 
@@ -42,11 +45,15 @@ async function redirectToOtherPage(req, res){
         }}
     );
 
+    if(!element){
+        return res.status(404).json({error : "Short url not found"});
+    }
+
     res.redirect(element.redirectURL);
 }
 
 async function homePage(req, res){
-    const allurl = await url.findOne({createdBy : req.user._id});
+    const allurl = await url.find({createdBy : req.user._id});
     res.render('homepage',{urls : allurl});
 }
 
