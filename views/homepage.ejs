@@ -31,7 +31,7 @@
                     <% urls.forEach(function(entry) { %>
                         <div class="url-item">
                             <div class="url-item-top">
-                                <a href="/<%= entry.shortID %>" target="_blank"><%= entry.shortID %></a>
+                                <a href="url/<%= entry.shortID %>" target="_blank"><%= entry.shortID %></a>
                                 <span class="click-count"><%= entry.visitHistory.length %> clicks</span>
                             </div>
                             <p class="original-url"><%= entry.redirectURL %></p>
