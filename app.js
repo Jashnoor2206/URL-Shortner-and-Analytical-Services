@@ -1,6 +1,5 @@
 const urlRoute = require('./routes/url');
 const express = require('express');
-const URL = require('./models/url');
 const app = express();
 const userRoute = require('./routes/user');
 const cookieParser = require('cookie-parser');

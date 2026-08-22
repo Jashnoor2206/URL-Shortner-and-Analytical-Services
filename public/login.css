@@ -59,6 +59,22 @@ input:focus {
     border-color: #6366f1;
 }
 
+.new-here {
+    text-align: center;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.new-here a {
+    color: #93c5fd;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.new-here a:hover {
+    text-decoration: underline;
+}
+
 button[type="submit"] {
     margin-top: 8px;
     padding: 12px 20px;
