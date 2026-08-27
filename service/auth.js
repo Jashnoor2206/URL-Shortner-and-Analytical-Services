@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const secret = "kaka";
+require('dotenv').config();
+const secret = process.env.SECRET;
 
 function setUser(user){
     const payload = {
