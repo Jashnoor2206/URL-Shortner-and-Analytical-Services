@@ -16,9 +16,8 @@ async function createUser(req, res) {
             error : err.code === 11000 ? "Email already registered" : "Something else went wrong"
         });
     }
-    const sessionid = uuidv4();
-    setUser(sessionid, newUser);
-    res.cookie("uuid", sessionid);
+    token = setUser(newUser);
+    res.cookie("uuid", token);
     return res.redirect('/url'); // redirecting back to homepage
 }
 
